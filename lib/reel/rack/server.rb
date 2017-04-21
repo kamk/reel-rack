@@ -43,7 +43,11 @@ module Reel
 
         normalize_env(options)
 
-        status, headers, body = app.call ::Rack::MockRequest.env_for(request.url, options)
+        begin
+          status, headers, body = app.call ::Rack::MockRequest.env_for(request.url, options)
+        rescue URI::Error
+          request.respond :bad_request, "Malformed URI"
+        end
 
         if body.respond_to? :each
           # If Content-Length was specified we can send the response all at once
