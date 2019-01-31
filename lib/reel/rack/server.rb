@@ -105,7 +105,7 @@ module Reel
       end
 
       def status_symbol(status)
-        if status.is_a?(Fixnum)
+        if status.is_a?(Integer)
           Http::Response::Status::SYMBOLS[status]
         else
           status.to_sym
